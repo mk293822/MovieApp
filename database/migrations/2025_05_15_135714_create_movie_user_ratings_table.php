@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\RoleEnums;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_details', function (Blueprint $table) {
+        Schema::create('movie_user_ratings', function (Blueprint $table) {
             $table->id();
+            $table->uuid('movie_id');
+            $table->foreign('movie_id')
+                ->references('id')->on('movies')
+                ->onDelete('cascade');
+
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->string('full_name')->nullable();
-            $table->string('avatar')->nullable();
-            $table->enum('role', array_map(fn($role) => $role->value, RoleEnums::cases()))->default(RoleEnums::User->value);
-            $table->boolean("is_banned")->default(false);
+            $table->decimal('rate', 3, 1)->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_details');
+        Schema::dropIfExists('movie_user_ratings');
     }
 };

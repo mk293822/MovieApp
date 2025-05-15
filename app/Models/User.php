@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
@@ -78,5 +78,21 @@ class User extends Authenticatable
     public function details()
     {
         return $this->hasOne(UserDetails::class, 'user_id');
+    }
+
+    public function ratedMovies()
+    {
+        return $this->belongsToMany(Movie::class, 'movie_user_ratings')
+            ->withPivot('rate')->withTimestamps();
+    }
+
+    public function savedMovies()
+    {
+        return $this->belongsToMany(Movie::class, 'saved_movies')->withTimestamps();
+    }
+
+    public function watchedMovies()
+    {
+        return $this->belongsToMany(Movie::class, 'watched_movies')->withPivot('watched_at');
     }
 }

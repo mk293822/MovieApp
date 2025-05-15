@@ -36,7 +36,7 @@ class MovieController extends Controller
      */
     public function show(string $id)
     {
-        return Inertia('Movie/ShowMovie',[]);
+        return Inertia::render('Movie/ShowMovie', []);
     }
 
     /**

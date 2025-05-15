@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\Enums\RoleEnums;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $user_id
@@ -28,6 +29,18 @@ class UserDetails extends Model
 {
     /** @use HasFactory<\Database\Factories\UserDetailsFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'full_name',
+        'avatar',
+        'role',
+        'is_banned'
+    ];
+
+    protected $casts = [
+        'role' => RoleEnums::class,
+    ];
 
     public function user()
     {
