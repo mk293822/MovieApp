@@ -7,8 +7,6 @@ interface Movie {
 }
 
 const MovieCart = ({ movie }: { movie: Movie }) => {
-    console.log(movie);
-
     return (
         <Link href={route('movie.show', movie.id)}>
             <div className="group m-4 transform overflow-hidden rounded-xl bg-stone-800 shadow-lg transition duration-300 hover:scale-105 hover:shadow-xl">

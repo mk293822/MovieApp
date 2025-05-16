@@ -21,7 +21,7 @@ const NavBar = () => {
 
     return (
         <nav
-            className={`fixed top-0 z-50 w-full transform bg-black/70 py-2 backdrop-blur transition-transform duration-300 ${
+            className={`fixed top-0 z-50 w-full transform bg-black/70 py-2 shadow-md shadow-black/70 backdrop-blur transition-transform duration-300 ${
                 scrollingUp ? 'translate-y-0' : '-translate-y-full'
             }`}
         >
