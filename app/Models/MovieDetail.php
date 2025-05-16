@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\MediaCollections\Models\Concerns\HasUuid;
+use Str;
 
 /**
  *
@@ -22,11 +23,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Concerns\HasUuid;
 class MovieDetail extends Model
 {
     /** @use HasFactory<\Database\Factories\MovieDetailFactory> */
-    use HasFactory, HasUuid, Searchable;
-
-    public $incrementing = false;
-    protected $keyType = 'string';
-
     protected $fillable = [
         'movie_id',
         'title',
@@ -38,6 +34,7 @@ class MovieDetail extends Model
         'poster_path',
         'rating',
         'views',
+        'is_public',
     ];
 
     protected $casts = [

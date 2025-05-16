@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use App\Enums\RoleEnums;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration

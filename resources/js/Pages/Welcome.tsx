@@ -12,7 +12,7 @@ export default function Welcome({
                 {/* Background SVG */}
                 <img
                     className="pointer-events-none absolute left-0 top-0 z-10 w-full max-w-[877px]"
-                    src="https://laravel.com/assets/img/welcome/background.svg"
+                    src="/assets/laravel_background.svg"
                     alt=""
                 />
 

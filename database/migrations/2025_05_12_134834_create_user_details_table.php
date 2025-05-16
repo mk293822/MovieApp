@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\RoleEnums;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,7 +16,6 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('full_name')->nullable();
             $table->string('avatar')->nullable();
-            $table->enum('role', array_map(fn($role) => $role->value, RoleEnums::cases()))->default(RoleEnums::User->value);
             $table->boolean("is_banned")->default(false);
             $table->timestamps();
         });

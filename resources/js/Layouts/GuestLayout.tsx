@@ -7,7 +7,7 @@ export default function Guest({ children }: PropsWithChildren) {
             {/* Background SVG */}
             <img
                 className="pointer-events-none fixed left-0 top-0 w-full max-w-[877px]"
-                src="https://laravel.com/assets/img/welcome/background.svg"
+                src="/assets/laravel_background.svg"
                 alt=""
             />
 

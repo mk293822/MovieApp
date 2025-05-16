@@ -14,7 +14,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('movie_details', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->uuid('movie_id');
             $table->foreign('movie_id')
                 ->references('id')->on('movies')
@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('poster_path')->nullable();
             $table->decimal('rating', 3, 1)->nullable()->index();
             $table->bigInteger('views')->default(0);
+            $table->boolean('is_public')->default(false); // for access control
             $table->timestamps();
         });
     }

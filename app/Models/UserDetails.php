@@ -34,7 +34,6 @@ class UserDetails extends Model
         'user_id',
         'full_name',
         'avatar',
-        'role',
         'is_banned'
     ];
 

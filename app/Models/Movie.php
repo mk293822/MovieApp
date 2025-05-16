@@ -20,7 +20,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Concerns\HasUuid;
 class Movie extends Model
 {
     /** @use HasFactory<\Database\Factories\MovieFactory> */
-    use HasFactory, HasUuid, Searchable;
+    use HasUuid;
 
     public $incrementing = false;
     protected $keyType = 'string';
@@ -31,12 +31,23 @@ class Movie extends Model
         'file_size',
         'duration',
         'resolution',
-        'is_public',
     ];
 
     public function details()
     {
         return $this->hasOne(MovieDetail::class);
+    }
+
+    public function scopeForIsPublic($query)
+    {
+        return $query->whereHas('movie_details', function ($query) {
+            $query->where('is_public', true);
+        });
+    }
+
+    public function getIsPublicAttribute()
+    {
+        $this->details?->is_public;
     }
 
     public function raters()

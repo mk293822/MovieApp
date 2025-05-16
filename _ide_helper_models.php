@@ -21,12 +21,30 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie query()
  * @mixin \Eloquent
+ * @property string $id
+ * @property string $file_path
+ * @property string $mime_type
+ * @property int $file_size
+ * @property int|null $duration
+ * @property string|null $resolution
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $is_public
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $raters
  * @property-read int|null $raters_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $usersWhoSaved
  * @property-read int|null $users_who_saved_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $usersWhoWatched
  * @property-read int|null $users_who_watched_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie forIsPublic()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereDuration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereFilePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereFileSize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereMimeType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereResolution($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereUpdatedAt($value)
  */
 	class Movie extends \Eloquent {}
 }
@@ -41,8 +59,34 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail query()
  * @mixin \Eloquent
+ * @property int $id
+ * @property string $movie_id
+ * @property string $title
+ * @property string|null $description
  * @property \App\Enums\MovieGenreEnums $genre
- * @property mixed $language
+ * @property int|null $release_year
+ * @property \App\Enums\MovieLanguageEnums|null $language
+ * @property string|null $director
+ * @property string|null $poster_path
+ * @property string|null $rating
+ * @property int $views
+ * @property int $is_public
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereDirector($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereGenre($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereIsPublic($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereMovieId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail wherePosterPath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereRating($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereReleaseYear($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereViews($value)
  */
 	class MovieDetail extends \Eloquent {}
 }
@@ -75,12 +119,23 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $role
+ * @property-read mixed $is_banned
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
+ * @property-read int|null $permissions_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Movie> $ratedMovies
  * @property-read int|null $rated_movies_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
+ * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Movie> $savedMovies
  * @property-read int|null $saved_movies_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Movie> $watchedMovies
  * @property-read int|null $watched_movies_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User permission($permissions, $without = false)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User role($roles, $guard = null, $without = false)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutPermission($permissions)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutRole($roles, $guard = null)
  */
 	class User extends \Eloquent {}
 }
@@ -104,7 +159,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDetails whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDetails whereUserId($value)
  * @mixin \Eloquent
+ * @property string|null $full_name
+ * @property string|null $avatar
+ * @property int $is_banned
  * @property \App\Enums\RoleEnums $role
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDetails whereAvatar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDetails whereFullName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDetails whereIsBanned($value)
  */
 	class UserDetails extends \Eloquent {}
 }

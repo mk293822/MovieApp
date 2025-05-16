@@ -18,8 +18,6 @@ return new class extends Migration
             $table->bigInteger('file_size');      // in bytes
             $table->integer('duration')->nullable();     // in seconds
             $table->string('resolution')->nullable();    // e.g., "1920x1080"
-            $table->boolean('is_public')->default(false); // for access control
-
             $table->timestamps();
         });
     }
