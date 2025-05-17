@@ -10,6 +10,7 @@ class ListMovies extends ListRecords
 {
     protected static string $resource = MovieResource::class;
 
+
     protected function getHeaderActions(): array
     {
         return [

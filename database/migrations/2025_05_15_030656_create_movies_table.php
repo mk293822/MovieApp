@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('movies', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('file_path');          // e.g., "movies/movie123.mp4"
-            $table->string('mime_type');          // e.g., "video/mp4"
-            $table->bigInteger('file_size');      // in bytes
-            $table->integer('duration')->nullable();     // in seconds
-            $table->string('resolution')->nullable();    // e.g., "1920x1080"
+            $table->string('file_path');
+            $table->string('mime_type');
+            $table->bigInteger('file_size');
+            $table->integer('duration')->nullable();
+            $table->string('resolution')->nullable();
+            $table->string('codec')->nullable();         // Added codec field
+            $table->string('bitrate')->nullable();       // Added bitrate field
+            $table->string('frame_rate')->nullable();    // Added frame rate field
             $table->timestamps();
         });
     }

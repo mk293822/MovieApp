@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
-use Spatie\MediaLibrary\MediaCollections\Models\Concerns\HasUuid;
 
 /**
  *
@@ -20,7 +20,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Concerns\HasUuid;
 class Movie extends Model
 {
     /** @use HasFactory<\Database\Factories\MovieFactory> */
-    use HasUuid;
+    use HasUuids;
 
     public $incrementing = false;
     protected $keyType = 'string';
@@ -48,13 +48,6 @@ class Movie extends Model
     public function getIsPublicAttribute()
     {
         $this->details?->is_public;
-    }
-
-    public function raters()
-    {
-        return $this->belongsToMany(User::class, 'movie_user_ratings')
-                    ->withPivot('rate')
-                    ->withTimestamps();
     }
 
     public function usersWhoSaved()

@@ -83,12 +83,6 @@ class User extends Authenticatable
         return $this->hasOne(UserDetails::class, 'user_id');
     }
 
-    public function ratedMovies()
-    {
-        return $this->belongsToMany(Movie::class, 'movie_user_ratings')
-            ->withPivot('rate')->withTimestamps();
-    }
-
     public function getIsBannedAttribute()
     {
         $this->details?->is_banned;

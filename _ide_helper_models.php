@@ -30,8 +30,6 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read mixed $is_public
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $raters
- * @property-read int|null $raters_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $usersWhoSaved
  * @property-read int|null $users_who_saved_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $usersWhoWatched
@@ -119,12 +117,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
  * @mixin \Eloquent
- * @property string $role
  * @property-read mixed $is_banned
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
  * @property-read int|null $permissions_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Movie> $ratedMovies
- * @property-read int|null $rated_movies_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
  * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Movie> $savedMovies
@@ -133,7 +128,6 @@ namespace App\Models{
  * @property-read int|null $watched_movies_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User permission($permissions, $without = false)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User role($roles, $guard = null, $without = false)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutPermission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutRole($roles, $guard = null)
  */

@@ -2,20 +2,34 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\MovieGenreEnums;
+use App\Enums\MovieLanguageEnums;
+use App\Enums\RoleEnums;
 use App\Filament\Resources\MovieResource\Pages;
 use App\Filament\Resources\MovieResource\RelationManagers;
 use App\Models\Movie;
+use App\Models\MovieDetail;
+use Filament\Facades\Filament;
 use Filament\Forms;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\CheckboxColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
+use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Models\Role;
 
 class MovieResource extends Resource
 {
-    protected static ?string $model = Movie::class;
+    protected static ?string $model = MovieDetail::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -23,16 +37,82 @@ class MovieResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('file_path')
+            TextInput::make('movie_id')->hiddenOn('create')->readOnly(),
+            Forms\Components\TextInput::make('title')
                     ->required(),
-                Forms\Components\TextInput::make('mime_type')
-                    ->required(),
-                Forms\Components\TextInput::make('file_size')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('duration')
-                    ->numeric(),
-                Forms\Components\TextInput::make('resolution'),
+            Forms\Components\TextInput::make('director')
+                ->required()
+                ->string(),
+            Forms\Components\TextInput::make('rating')
+                ->numeric()
+                ->default(0)
+                ->minValue(0)
+                ->maxValue(10),
+            Select::make('genre')->options(
+                collect(MovieGenreEnums::cases())
+                    ->mapWithKeys(
+                        fn($case) =>
+                        [
+                            $case->value => $case->label(),
+                        ]
+                    )
+            )
+                ->required(),
+            Select::make('language')->options(
+                collect(MovieLanguageEnums::cases())
+                    ->mapWithKeys(
+                        fn($case) =>
+                        [
+                            $case->value => $case->label(),
+                        ]
+                    )
+            )
+                ->default(MovieLanguageEnums::English->value)
+                ->required(),
+            DatePicker::make('release_year')
+                ->displayFormat('Y')  // Display only the year
+                ->required()
+                ->withoutTime(),
+            Checkbox::make('is_public')->default(false),
+            Forms\Components\RichEditor::make('description')
+                ->toolbarButtons([
+                    'blockquote',
+                    'bold',
+                    'bulletList',
+                    'codeBlock',
+                    'h2',
+                    'h3',
+                    'italic',
+                    'link',
+                    'orderedList',
+                    'redo',
+                    'strike',
+                    'underline',
+                    'undo',
+                ])
+                ->required()
+                ->columnSpan(2),
+            FileUpload::make('poster_path')
+                ->label('Poster')
+                ->openable()
+                ->disk('public')
+                ->directory('posters')
+                ->preserveFilenames()
+                ->imageResizeTargetWidth(1000)
+                ->imageResizeTargetHeight(1500)
+                ->imageCropAspectRatio('2:3')
+                ->image()
+                ->columnSpan(2)
+                ->required(),
+            FileUpload::make('video')
+                ->label('Video Upload')
+                ->maxSize(5368709120)
+                ->disk('public')
+                ->directory('videos')
+                ->acceptedFileTypes(['video/mp4', 'video/avi', 'video/mkv']) // Restrict accepted file types
+                ->columnSpan(2)
+                ->previewable(false)
+                ->required(),
             ]);
     }
 
@@ -40,35 +120,66 @@ class MovieResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
+            Tables\Columns\TextColumn::make('id')
                     ->label('ID')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('file_path')
+            Tables\Columns\ImageColumn::make('poster_path')
+                ->height(80)
+                ->width(40)
+                ->getStateUsing(function ($record) {
+                    return Storage::disk('public')->path($record->poster_path);
+                }),
+            Tables\Columns\TextColumn::make('title')
+                ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('mime_type')
+            Tables\Columns\TextColumn::make('director')
+                ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('file_size')
+            Tables\Columns\TextColumn::make('rating')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('duration')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('resolution')
+            Tables\Columns\TextColumn::make('genre')
+                ->formatStateUsing(fn($state) => $state?->label())
+                ->sortable(),
+            Tables\Columns\TextColumn::make('language')
+                ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+            Tables\Columns\TextColumn::make('release_year')
                     ->sortable()
+                ->date()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+            CheckboxColumn::make('is_public')->sortable()->searchable(),
             ])
             ->filters([
-                //
-            ])
+            SelectFilter::make('genre')
+                ->options(
+                    collect(MovieGenreEnums::cases())
+                        ->mapWithKeys(
+                            fn($case) =>
+                            [
+                                $case->value => $case->label(),
+                            ]
+                        )
+                )
+                ->preload()
+                ->searchable(),
+            SelectFilter::make('language')
+                ->options(
+                    collect(MovieLanguageEnums::cases())
+                        ->mapWithKeys(
+                            fn($case) =>
+                            [
+                                $case->value => $case->label(),
+                            ]
+                        )
+                )
+                ->preload()
+                ->searchable(),
+            TernaryFilter::make('is_public')->preload(),
+        ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -91,5 +202,11 @@ class MovieResource extends Resource
             'create' => Pages\CreateMovie::route('/create'),
             'edit' => Pages\EditMovie::route('/{record}/edit'),
         ];
+    }
+
+    public static function canViewAny(): bool
+    {
+        $user = Filament::auth()->user();
+        return $user && $user->hasRole(RoleEnums::Admin) || $user->hasRole(RoleEnums::Uploader);
     }
 }
