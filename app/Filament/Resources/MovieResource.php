@@ -98,6 +98,7 @@ class MovieResource extends Resource
                 ->disk('public')
                 ->directory('posters')
                 ->preserveFilenames()
+                ->previewable()
                 ->imageResizeTargetWidth(1000)
                 ->imageResizeTargetHeight(1500)
                 ->imageCropAspectRatio('2:3')
@@ -124,11 +125,7 @@ class MovieResource extends Resource
                     ->label('ID')
                     ->searchable(),
             Tables\Columns\ImageColumn::make('poster_path')
-                ->height(80)
-                ->width(40)
-                ->getStateUsing(function ($record) {
-                    return Storage::disk('public')->path($record->poster_path);
-                }),
+                ->height(60),
             Tables\Columns\TextColumn::make('title')
                 ->sortable()
                     ->searchable(),

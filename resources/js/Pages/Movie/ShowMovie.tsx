@@ -1,40 +1,35 @@
 import MovieCart from '@/Components/APP/MovieCart';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Movie } from '@/types';
 import { useRef } from 'react';
 
-const ShowMovie = () => {
+const ShowMovie = ({ movie }: { movie: Movie }) => {
     const videoRef = useRef<HTMLVideoElement | null>(null);
-
-    const movie = {
-        id: 1,
-        title: 'haha',
-        category: 'haha',
-    };
 
     return (
         <AuthenticatedLayout>
             <div className="w-full bg-black text-white">
                 {/* Movie Frame */}
-                <div className="relative h-[60vh] w-full overflow-hidden">
+                <div className="relative h-[80vh] w-full overflow-hidden">
                     <video
                         ref={videoRef}
-                        className="h-full w-full object-cover"
-                        src="https://www.youtube.com/watch?v=7mQq2VNRGp4&list=RD7mQq2VNRGp4&start_radio=1"
+                        className="h-full w-full"
+                        src={movie.file_path}
                         controls
-                        poster="/assets/Cinema_Banner.jpeg"
+                        poster={movie.poster_path}
                     />
                 </div>
 
                 {/* Movie Details */}
-                <div className="mx-auto max-w-4xl space-y-2 p-6">
-                    <h1 className="text-3xl font-bold">The Great Adventure</h1>
-                    <p className="text-gray-300">
-                        A thrilling journey of courage and discovery in a world
-                        of unknown dangers. Join our hero as they face
-                        challenges, uncover secrets, and redefine what it means
-                        to be brave.
+                <div className="ms-10 max-w-4xl space-y-2 p-6">
+                    <h1 className="text-3xl font-bold">{movie.title}</h1>
+                    <p
+                        className="text-gray-300"
+                        dangerouslySetInnerHTML={{ __html: movie.description }}
+                    />
+                    <p className="font-medium text-yellow-400">
+                        ⭐ {movie.rating}/10
                     </p>
-                    <p className="font-medium text-yellow-400">⭐ 8.5/10</p>
                 </div>
 
                 {/* Related Movies */}

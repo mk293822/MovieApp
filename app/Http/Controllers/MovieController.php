@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\MovieResource;
+use App\Models\Movie;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -34,9 +36,14 @@ class MovieController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id, Request $request)
     {
-        return Inertia::render('Movie/ShowMovie', []);
+
+        $movie_find = Movie::forIsPublic()->findOrFail($id);
+
+        $movie = (new MovieResource($movie_find))->toArray($request);
+
+        return Inertia::render('Movie/ShowMovie', compact('movie'));
     }
 
     /**

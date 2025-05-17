@@ -27,18 +27,25 @@ namespace App\Models{
  * @property int $file_size
  * @property int|null $duration
  * @property string|null $resolution
+ * @property string|null $codec
+ * @property string|null $bitrate
+ * @property string|null $frame_rate
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read mixed $is_public
+ * @property-read mixed $poster_path
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $usersWhoSaved
  * @property-read int|null $users_who_saved_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $usersWhoWatched
  * @property-read int|null $users_who_watched_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie forIsPublic()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereBitrate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereCodec($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereDuration($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereFilePath($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereFileSize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereFrameRate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereMimeType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereResolution($value)

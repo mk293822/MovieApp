@@ -26,7 +26,7 @@ class EditMovie extends EditRecord
     {
         $movie = Movie::findOrFail($data['movie_id']);
 
-        $data['video'] = $movie->file_path;
+        $data['video'] = str_replace('/storage/', '', $movie->file_path);
 
         return $data;
     }
@@ -34,7 +34,6 @@ class EditMovie extends EditRecord
     public function mutateFormDataBeforeSave(array $data): array
     {
 
-        dd(Movie::findOrFail($data['movie_id']));
         try {
             $video = $this->editMovie($data['video'], $data['movie_id']);
 

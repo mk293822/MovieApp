@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Scout\Searchable;
 
 /**
@@ -33,6 +34,11 @@ class Movie extends Model
         'resolution',
     ];
 
+    public function getFilePathAttribute()
+    {
+        return Storage::url($this->attributes['file_path']);
+    }
+
     public function details()
     {
         return $this->hasOne(MovieDetail::class);
@@ -40,14 +46,19 @@ class Movie extends Model
 
     public function scopeForIsPublic($query)
     {
-        return $query->whereHas('movie_details', function ($query) {
+        return $query->whereHas('details', function ($query) {
             $query->where('is_public', true);
         });
     }
 
+    public function getPosterPathAttribute()
+    {
+        return Storage::url($this->details?->poster_path);
+    }
+
     public function getIsPublicAttribute()
     {
-        $this->details?->is_public;
+        return $this->details?->is_public;
     }
 
     public function usersWhoSaved()

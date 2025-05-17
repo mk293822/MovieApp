@@ -1,30 +1,21 @@
 import MovieCart from '@/Components/APP/MovieCart';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Movie } from '@/types';
 import { Head } from '@inertiajs/react';
 import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 
 const categories = ['All', 'Popular', 'Top Rating', 'Now Showing', 'Upcoming'];
 
-type Movie = {
-    id: number;
-    title: string;
-    category: string;
-};
-
-const dummyMovies: Movie[] = Array.from({ length: 101 }, (_, i) => ({
-    id: i + 1,
-    title: `Movie ${i + 1}`,
-    category: categories[i % 3],
-}));
-
-export default function Dashboard() {
+export default function Dashboard({ movies }: { movies: Movie[] }) {
     const [activeTab, setActiveTab] = useState(categories[0]);
     const [visibleCount, setVisibleCount] = useState(9);
     const loaderRef = useRef(null);
 
-    const filteredMovies = dummyMovies.filter((m) => m.category === activeTab);
-    const visibleMovies = filteredMovies.slice(0, visibleCount);
+    // const dummyMovies: Movie[] = [...movies, { category: 'all' }];
+
+    // const filteredMovies = dummyMovies.filter((m) => m.category === activeTab);
+    const visibleMovies = movies.slice(0, visibleCount);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -87,7 +78,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* Loader Trigger */}
-                {visibleCount < filteredMovies.length && (
+                {visibleCount < movies.length && (
                     <div ref={loaderRef} className="h-10"></div>
                 )}
             </div>
