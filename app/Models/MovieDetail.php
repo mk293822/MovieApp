@@ -23,6 +23,9 @@ use Str;
 class MovieDetail extends Model
 {
     /** @use HasFactory<\Database\Factories\MovieDetailFactory> */
+
+    use HasFactory;
+
     protected $fillable = [
         'movie_id',
         'title',

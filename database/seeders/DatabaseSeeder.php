@@ -30,7 +30,8 @@ class DatabaseSeeder extends Seeder
                 ]);
 
                 $user->assignRole(RoleEnums::User->value);
-            });
+            })
+        ;
 
         $user = User::factory()->create([
             'name' => 'minkhant',
@@ -40,5 +41,15 @@ class DatabaseSeeder extends Seeder
         UserDetails::factory()->create([
             'user_id' => $user->id,
         ]);
+
+        Movie::factory()
+            ->count(30)
+            ->create()
+            ->each(function ($movie) {
+                MovieDetail::factory()->create([
+                    'movie_id' => $movie->id
+                ]);
+            })
+        ;
     }
 }

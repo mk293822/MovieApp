@@ -69,17 +69,19 @@ namespace App\Models{
  * @property string $movie_id
  * @property string $title
  * @property string|null $description
- * @property \App\Enums\MovieGenreEnums $genre
+ * @property \App\Enums\MovieGenreEnums|null $genre
  * @property int|null $release_year
  * @property \App\Enums\MovieLanguageEnums|null $language
  * @property string|null $director
  * @property string|null $poster_path
  * @property string|null $cover_path
+ * @property string|null $actors
  * @property string|null $rating
  * @property int $views
  * @property int $is_public
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereActors($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereCoverPath($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereDescription($value)

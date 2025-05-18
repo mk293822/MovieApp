@@ -5,7 +5,7 @@ import { Head } from '@inertiajs/react';
 import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 
-const categories = ['All', 'Popular', 'Top Rating', 'Now Showing', 'Upcoming'];
+const categories = ['All', 'Popular', 'Top Rating', 'Now Showing'];
 
 export default function Dashboard({ movies }: { movies: Movie[] }) {
     const [activeTab, setActiveTab] = useState(categories[0]);

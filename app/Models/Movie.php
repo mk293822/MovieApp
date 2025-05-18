@@ -21,7 +21,7 @@ use Laravel\Scout\Searchable;
 class Movie extends Model
 {
     /** @use HasFactory<\Database\Factories\MovieFactory> */
-    use HasUuids;
+    use HasUuids, HasFactory;
 
     public $incrementing = false;
     protected $keyType = 'string';
