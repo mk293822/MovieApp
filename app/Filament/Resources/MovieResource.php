@@ -196,9 +196,16 @@ class MovieResource extends Resource
                 ->label('Delete')
                 ->icon('heroicon-o-trash')
                 ->color('danger')
-                ->requiresConfirmation()->action(fn($record) => self::deleteMovie($record)),
+                ->requiresConfirmation()
+                ->action(fn($record) => self::deleteMovie($record)),
             ])
             ->bulkActions([
+            Tables\Actions\BulkAction::make('delete')
+                ->label('Delete Selected movies')
+                ->icon('heroicon-o-trash')
+                ->color('danger')
+                ->requiresConfirmation()
+                ->action(fn($records) => $records->each(fn($record) => self::deleteMovie($record)))
             ]);
     }
 
