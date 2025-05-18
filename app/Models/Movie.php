@@ -32,6 +32,9 @@ class Movie extends Model
         'file_size',
         'duration',
         'resolution',
+        'codec',
+        'bitrate',
+        'frame_rate',
     ];
 
     public function getFilePathAttribute()
@@ -54,6 +57,11 @@ class Movie extends Model
     public function getPosterPathAttribute()
     {
         return Storage::url($this->details?->poster_path);
+    }
+
+    public function getCoverPathAttribute()
+    {
+        return Storage::url($this->details?->cover_path);
     }
 
     public function getIsPublicAttribute()

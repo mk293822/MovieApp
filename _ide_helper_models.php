@@ -32,6 +32,7 @@ namespace App\Models{
  * @property string|null $frame_rate
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $cover_path
  * @property-read mixed $is_public
  * @property-read mixed $poster_path
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $usersWhoSaved
@@ -73,11 +74,13 @@ namespace App\Models{
  * @property \App\Enums\MovieLanguageEnums|null $language
  * @property string|null $director
  * @property string|null $poster_path
+ * @property string|null $cover_path
  * @property string|null $rating
  * @property int $views
  * @property int $is_public
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereCoverPath($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereDirector($value)

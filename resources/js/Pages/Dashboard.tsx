@@ -71,7 +71,7 @@ export default function Dashboard({ movies }: { movies: Movie[] }) {
                 </div>
 
                 {/* Movie Cards */}
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+                <div className="flex flex-wrap gap-6">
                     {visibleMovies.map((movie) => (
                         <MovieCart key={movie.id} movie={movie} />
                     ))}

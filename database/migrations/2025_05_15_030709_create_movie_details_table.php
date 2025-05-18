@@ -22,13 +22,15 @@ return new class extends Migration
 
             $table->string('title')->index();
             $table->text('description')->nullable();
-            $table->enum('genre', array_map(fn($genre) => $genre->value, MovieGenreEnums::cases()))->default(MovieGenreEnums::NotSpecified->value)->index();
+            $table->json('genre')->nullable()->index();
             $table->year('release_year')->nullable();
             $table->enum('language', array_map(fn($language) => $language->value, MovieLanguageEnums::cases()))
                 ->default(MovieLanguageEnums::NotSpecified->value)
                 ->nullable()->index();
             $table->string('director')->nullable()->index();
             $table->string('poster_path')->nullable();
+            $table->string('cover_path')->nullable();
+            $table->json('actors')->nullable()->index();
             $table->decimal('rating', 3, 1)->nullable()->index();
             $table->bigInteger('views')->default(0);
             $table->boolean('is_public')->default(false); // for access control

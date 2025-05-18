@@ -27,6 +27,7 @@ class MovieResource extends JsonResource
             'views' => $details->views,
             'poster_path' => $this->poster_path,
             'file_path' => $this->file_path,
+            'cover_path' => $this->cover_path
         ];
     }
 }

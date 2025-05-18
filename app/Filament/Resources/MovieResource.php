@@ -21,7 +21,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\CheckboxColumn;
+use Filament\Tables\Columns\Contracts\Editable;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Illuminate\Support\Facades\Storage;
@@ -32,6 +34,8 @@ class MovieResource extends Resource
     protected static ?string $model = MovieDetail::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected const STORAGE_PREFIX = '/storage/';
 
     public static function form(Form $form): Form
     {
@@ -99,9 +103,20 @@ class MovieResource extends Resource
                 ->directory('posters')
                 ->preserveFilenames()
                 ->previewable()
-                ->imageResizeTargetWidth(1000)
-                ->imageResizeTargetHeight(1500)
                 ->imageCropAspectRatio('2:3')
+                ->imageEditor()
+                ->image()
+                ->columnSpan(2)
+                ->required(),
+            FileUpload::make('cover_path')
+                ->label('Video Cover')
+                ->openable()
+                ->disk('public')
+                ->directory('video_covers')
+                ->imageEditor()
+                ->imageCropAspectRatio('16:9')
+                ->preserveFilenames()
+                ->previewable()
                 ->image()
                 ->columnSpan(2)
                 ->required(),
@@ -140,6 +155,7 @@ class MovieResource extends Resource
                 ->sortable(),
             Tables\Columns\TextColumn::make('language')
                 ->sortable()
+                ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
             Tables\Columns\TextColumn::make('release_year')
                     ->sortable()
@@ -176,13 +192,29 @@ class MovieResource extends Resource
         ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-            Tables\Actions\DeleteAction::make(),
+            Tables\Actions\Action::make('delete')
+                ->label('Delete')
+                ->icon('heroicon-o-trash')
+                ->color('danger')
+                ->requiresConfirmation()->action(fn($record) => self::deleteMovie($record)),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ]);
+    }
+
+    protected static function deleteMovie(MovieDetail $record): void
+    {
+        $movie = Movie::findOrFail($record->movie_id);
+        Storage::disk('public')->delete(str_replace(self::STORAGE_PREFIX, '', $movie->poster_path));
+        Storage::disk('public')->delete(str_replace(self::STORAGE_PREFIX, '', $movie->cover_path));
+        Storage::disk('public')->delete(str_replace(self::STORAGE_PREFIX, '', $movie->file_path));
+        $movie->details()->delete();
+        $movie->delete();
+
+        Notification::make()
+            ->title('Deleted successfully')
+            ->success()
+            ->send();
     }
 
     public static function getRelations(): array

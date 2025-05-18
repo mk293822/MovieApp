@@ -20,6 +20,7 @@ export type Movie = {
     views: number; // Number of views
     poster_path: string;
     file_path: string; // Path to the movie file (video)
+    cover_path: string;
 };
 
 export type PageProps<

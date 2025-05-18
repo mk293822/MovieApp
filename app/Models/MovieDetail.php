@@ -35,6 +35,7 @@ class MovieDetail extends Model
         'rating',
         'views',
         'is_public',
+        'cover_path',
     ];
 
     protected $casts = [

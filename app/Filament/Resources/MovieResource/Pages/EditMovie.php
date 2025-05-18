@@ -4,9 +4,12 @@ namespace App\Filament\Resources\MovieResource\Pages;
 
 use App\Filament\Resources\MovieResource;
 use App\Models\Movie;
+use App\Models\MovieDetail;
 use Arr;
 use FFMpeg\FFMpeg;
 use Filament\Actions;
+use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -15,18 +18,40 @@ class EditMovie extends EditRecord
 {
     protected static string $resource = MovieResource::class;
 
+    protected const STORAGE_PREFIX = '/storage/';
+
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Action::make('delete')
+                ->label('Delete Movie')
+                ->icon('heroicon-o-trash')
+                ->color('danger')
+                ->requiresConfirmation()->action(fn($record) => self::deleteMovie($record)),
         ];
     }
+
+    protected static function deleteMovie(MovieDetail $record): void
+    {
+        $movie = Movie::findOrFail($record->movie_id);
+        Storage::disk('public')->delete(str_replace(self::STORAGE_PREFIX, '', $movie->poster_path));
+        Storage::disk('public')->delete(str_replace(self::STORAGE_PREFIX, '', $movie->cover_path));
+        Storage::disk('public')->delete(str_replace(self::STORAGE_PREFIX, '', $movie->file_path));
+        $movie->details()->delete();
+        $movie->delete();
+
+        Notification::make()
+            ->title('Deleted successfully')
+            ->success()
+            ->send();
+    }
+
 
     public function mutateFormDataBeforeFill(array $data): array
     {
         $movie = Movie::findOrFail($data['movie_id']);
 
-        $data['video'] = str_replace('/storage/', '', $movie->file_path);
+        $data['video'] = str_replace(self::STORAGE_PREFIX, '', $movie->file_path);
 
         return $data;
     }
@@ -37,13 +62,13 @@ class EditMovie extends EditRecord
         try {
             $video = $this->editMovie($data['video'], $data['movie_id']);
 
-            if (!$video || !($video instanceof Movie)) {
-                Storage::disk('public')->delete($data['video']);
-                throw new \Exception("Video processing failed.");
-            }
-
             unset($data['video']);
             $data['movie_id'] = $video->id;
+
+
+            if (isset($data['poster_path']) && Storage::disk('public')->exists(str_replace(self::STORAGE_PREFIX, "", $video->poster_path))) {
+                Storage::disk('public')->delete(str_replace(self::STORAGE_PREFIX, "", $video->poster_path));
+            }
 
             return $data;
         } catch (\Exception $e) {
@@ -55,7 +80,7 @@ class EditMovie extends EditRecord
     protected function editMovie($videoPath, string $id)
     {
 
-        $fullPath = Storage::disk('public')->path($videoPath);
+        $fullPath = Storage::disk('public')->path(str_replace(self::STORAGE_PREFIX, '', $videoPath));
 
         $ffmpeg = FFMpeg::create();
         $ff_video = $ffmpeg->open($fullPath);
@@ -68,8 +93,8 @@ class EditMovie extends EditRecord
             DB::beginTransaction();
             $video = Movie::findOrFail($id);
 
-            if (Storage::disk('public')->exists($video->file_path)) {
-                Storage::disk('public')->delete($video->file_path);
+            if (Storage::disk('public')->exists(str_replace(self::STORAGE_PREFIX, '', $video->file_path))) {
+                Storage::disk('public')->delete(str_replace(self::STORAGE_PREFIX, '', $video->file_path));
             }
 
             $video->file_path = $videoPath;
