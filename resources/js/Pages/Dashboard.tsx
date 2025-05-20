@@ -158,9 +158,12 @@ export default function Dashboard() {
                 {hasMore && (
                     <div
                         ref={ref}
-                        className="flex h-10 w-full items-center justify-center"
+                        className="flex h-10 w-full items-center justify-center text-2xl font-extrabold text-white"
                     >
-                        <span>Loading more...</span>
+                        <span className="flex items-center gap-2 text-gray-500">
+                            <div className="h-7 w-7 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
+                            Loading more.....
+                        </span>
                     </div>
                 )}
             </div>

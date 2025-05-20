@@ -53,7 +53,9 @@ const ShowMovie = ({
                 {/* Related Movies */}
                 <div className="mx-auto w-full p-6">
                     <h2 className="mb-4 text-xl font-semibold">
-                        Related Movies
+                        {related_movies.length > 0
+                            ? 'Related Movies'
+                            : 'No Related Movies Found'}
                     </h2>
                     <div className="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-4">
                         {related_movies.map((movie) => (
