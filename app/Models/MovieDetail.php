@@ -6,9 +6,6 @@ use App\Enums\MovieGenreEnums;
 use App\Enums\MovieLanguageEnums;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Scout\Searchable;
-use Spatie\MediaLibrary\MediaCollections\Models\Concerns\HasUuid;
-use Str;
 
 /**
  *

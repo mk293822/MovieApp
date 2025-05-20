@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\CategorieEnums;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Scout\Searchable;
 
@@ -21,7 +23,7 @@ use Laravel\Scout\Searchable;
 class Movie extends Model
 {
     /** @use HasFactory<\Database\Factories\MovieFactory> */
-    use HasUuids, HasFactory;
+    use HasUuids, HasFactory, Searchable;
 
     public $incrementing = false;
     protected $keyType = 'string';
@@ -37,14 +39,33 @@ class Movie extends Model
         'frame_rate',
     ];
 
-    public function getFilePathAttribute()
-    {
-        return Storage::url($this->attributes['file_path']);
-    }
-
     public function details()
     {
         return $this->hasOne(MovieDetail::class);
+    }
+
+    public function searchable()
+    {
+        return $this->with('details');
+    }
+
+    public function toSearchableArray()
+    {
+        $details = $this->details;
+
+        return [
+            'id' => $this->id,
+            'title' => $details->title ?? '',
+            'description' => $details->description ?? '',
+            'genre' => $details->genre->value ?? '',
+            'language' => $details->language->value ?? '',
+            'director' => $details->director ?? '',
+        ];
+    }
+
+    public function getFilePathAttribute()
+    {
+        return Storage::url($this->attributes['file_path']);
     }
 
     public function scopeForIsPublic($query)
@@ -67,6 +88,42 @@ class Movie extends Model
     public function getIsPublicAttribute()
     {
         return $this->details?->is_public;
+    }
+
+    public function scopeForCategories($query, CategorieEnums $category)
+    {
+        if ($category === CategorieEnums::NowShowing) {
+            return $query->whereHas('details', function ($q) {
+                $q->where('release_year', '>=', now()->year);
+            })->select('movies.*')
+                ->with('details')
+                ->join('movie_details', 'movies.id', '=', 'movie_details.movie_id')
+                ->orderByDesc("movie_details.created_at");
+        }
+
+        return $query->whereHas('details')
+            ->select('movies.*')
+            ->with('details')
+            ->join('movie_details', 'movies.id', '=', 'movie_details.movie_id')
+            ->orderByDesc("movie_details.{$category->value}");
+    }
+
+    public function scopeForRelatedMovies($query, $movie)
+    {
+
+        $user = Auth::user();
+
+        $excludedIds = collect([
+            $movie->id,
+            ...$user->watchedMovies()->pluck('movie_id')->toArray(),
+            ...$user->savedMovies()->pluck('movie_id')->toArray(),
+        ])->unique();
+
+        return $query->whereNotIn('id', $excludedIds)
+            ->whereHas('details', function ($q) use ($movie) {
+                $q->where('genre', $movie->details->genre)
+                    ->orWhere('director', $movie->details->director);
+            });
     }
 
     public function usersWhoSaved()

@@ -1,9 +1,16 @@
 import MovieCart from '@/Components/APP/MovieCart';
+import { getMovieGenre } from '@/helper';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Movie } from '@/types';
 import { useRef } from 'react';
 
-const ShowMovie = ({ movie }: { movie: Movie }) => {
+const ShowMovie = ({
+    movie,
+    related_movies,
+}: {
+    movie: Movie;
+    related_movies: Movie[];
+}) => {
     const videoRef = useRef<HTMLVideoElement | null>(null);
 
     const hadleSeeking = () => {
@@ -37,26 +44,21 @@ const ShowMovie = ({ movie }: { movie: Movie }) => {
                     <p className="font-medium text-yellow-400">
                         ⭐ {movie.rating}/10
                     </p>
+                    <span>
+                        {movie.language} • {getMovieGenre(movie.genre)} •{' '}
+                        {new Date(movie.release_year).getFullYear()}
+                    </span>
                 </div>
 
                 {/* Related Movies */}
-                <div className="max-w-auto mx-auto bg-transparent p-6">
+                <div className="mx-auto w-full p-6">
                     <h2 className="mb-4 text-xl font-semibold">
                         Related Movies
                     </h2>
-                    <div className="gap-w flex flex-wrap">
-                        <MovieCart movie={movie} />
-                        <MovieCart movie={movie} />
-                        <MovieCart movie={movie} />
-                        <MovieCart movie={movie} />
-                        <MovieCart movie={movie} />
-                        <MovieCart movie={movie} />
-                        <MovieCart movie={movie} />
-                        <MovieCart movie={movie} />
-                        <MovieCart movie={movie} />
-                        <MovieCart movie={movie} />
-                        <MovieCart movie={movie} />
-                        <MovieCart movie={movie} />
+                    <div className="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-4">
+                        {related_movies.map((movie) => (
+                            <MovieCart movie={movie} key={movie.id} />
+                        ))}
                     </div>
                 </div>
             </div>

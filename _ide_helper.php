@@ -26732,6 +26732,28 @@ namespace Illuminate\View {
             }
     }
 
+namespace Laravel\Scout {
+    /**
+     * 
+     *
+     * @template TModel of \Illuminate\Database\Eloquent\Model
+     */
+    class Builder {
+        /**
+         * 
+         *
+         * @see \TeamTNT\Scout\TNTSearchScoutServiceProvider::boot()
+         * @param mixed $constraints
+         * @static 
+         */
+        public static function constrain($constraints)
+        {
+            return \Laravel\Scout\Builder::constrain($constraints);
+        }
+
+            }
+    }
+
 
 namespace  {
     class App extends \Illuminate\Support\Facades\App {}

@@ -15,7 +15,7 @@ export default function AuthenticatedLayout({
 
             <img
                 src="/assets/Cinema_Banner.jpeg"
-                className="pointer-events-none fixed -right-56 top-20 w-screen -rotate-[60deg] object-fill opacity-30"
+                className="pointer-events-none fixed -right-80 top-20 w-screen -rotate-[60deg] object-fill opacity-30"
                 alt=""
             />
 

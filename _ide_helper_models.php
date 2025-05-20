@@ -39,7 +39,9 @@ namespace App\Models{
  * @property-read int|null $users_who_saved_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $usersWhoWatched
  * @property-read int|null $users_who_watched_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie forCategories(\App\Enums\CategorieEnums $category)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie forIsPublic()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie forRelatedMovies($movie)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereBitrate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereCodec($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereCreatedAt($value)

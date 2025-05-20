@@ -33,7 +33,7 @@ class EditMovie extends EditRecord
 
     protected static function deleteMovie(MovieDetail $record): void
     {
-        $movie = Movie::findOrFail($record->movie_id);
+        $movie = $record->movie;
         Storage::disk('public')->delete(str_replace(self::STORAGE_PREFIX, '', $movie->poster_path));
         Storage::disk('public')->delete(str_replace(self::STORAGE_PREFIX, '', $movie->cover_path));
         Storage::disk('public')->delete(str_replace(self::STORAGE_PREFIX, '', $movie->file_path));
