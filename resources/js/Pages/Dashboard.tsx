@@ -161,9 +161,14 @@ export default function Dashboard() {
                         className="flex h-10 w-full items-center justify-center text-2xl font-extrabold text-white"
                     >
                         <span className="flex items-center gap-2 text-gray-500">
-                            <div className="h-7 w-7 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
+                            <div className="h-7 w-7 animate-spin rounded-full border-4 border-blue-500 border-r-transparent"></div>
                             Loading more.....
                         </span>
+                    </div>
+                )}
+                {!hasMore && (
+                    <div className="flex h-10 w-full items-center justify-center text-2xl font-extrabold text-white">
+                        No More Movies
                     </div>
                 )}
             </div>

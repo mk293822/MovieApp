@@ -23,11 +23,11 @@ export type Movie = {
     cover_path: string;
 };
 
-export type PageProps<
-    T extends Record<string, unknown> = Record<string, unknown>,
-> = T & {
-    auth: {
-        user: User;
+export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> =
+    T & {
+        auth: {
+            user: User;
+            canAddMovies: boolean;
+        };
+        ziggy: Config & { location: string };
     };
-    ziggy: Config & { location: string };
-};

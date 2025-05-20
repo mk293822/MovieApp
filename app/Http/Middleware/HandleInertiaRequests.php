@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\PermissionEnums;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
 
@@ -34,6 +36,7 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+                'canAddMovies' => $request->user()?->hasPermissionTo(PermissionEnums::UploadMovies->value),
             ],
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),

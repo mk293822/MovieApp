@@ -4,7 +4,7 @@ import ApplicationLogo from '../ApplicationLogo';
 import Dropdown from '../Dropdown';
 
 const NavBar = () => {
-    const user = usePage().props.auth.user;
+    const { user, canAddMovies } = usePage().props.auth;
     const [scrollingUp, setScrollingUp] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -35,6 +35,14 @@ const NavBar = () => {
                 </div>
 
                 <div className="flex min-w-[40%] items-center justify-end">
+                    {!!canAddMovies && (
+                        <Link
+                            href="/admin"
+                            className="rounded px-4 py-2 font-bold text-white transition hover:text-white/80"
+                        >
+                            Go to Admin Panel
+                        </Link>
+                    )}
                     <div className="relative ms-3">
                         <Dropdown>
                             <Dropdown.Trigger>
