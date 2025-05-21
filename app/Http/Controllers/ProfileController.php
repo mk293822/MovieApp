@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ApprovingEnum;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
@@ -22,6 +23,17 @@ class ProfileController extends Controller
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
         ]);
+    }
+
+    public function applyUpload(Request $request)
+    {
+        $user = $request->user();
+
+        $user->details->approve = ApprovingEnum::Pending;
+
+        $user->details->save();
+
+        return response()->json(['approve' => $user->approve->value]);
     }
 
     /**

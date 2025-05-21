@@ -32,11 +32,13 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = $request->user();
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
-                'canAddMovies' => $request->user()?->hasPermissionTo(PermissionEnums::UploadMovies->value),
+                'user' => $user,
+                'canAddMovies' => $user?->hasPermissionTo(PermissionEnums::UploadMovies->value),
+                'approve' => $user?->approve?->value,
             ],
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),

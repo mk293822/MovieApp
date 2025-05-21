@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Enums\PermissionEnums;
 use Egulias\EmailValidator\Validation\EmailValidation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -85,7 +86,20 @@ class User extends Authenticatable
 
     public function getIsBannedAttribute()
     {
-        $this->details?->is_banned;
+        return $this->details?->is_banned;
+    }
+
+    public function getApproveAttribute()
+    {
+        return $this->details?->approve;
+    }
+
+    public function approvedBy()
+    {
+        return $this->belongsTo(User::class, 'approved_by')
+            ->whereHas('permissions', function ($q) {
+                $q->where('name', PermissionEnums::ApproveUploader->value);
+            });
     }
 
     public function savedMovies()

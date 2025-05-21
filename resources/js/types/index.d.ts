@@ -28,6 +28,7 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
         auth: {
             user: User;
             canAddMovies: boolean;
+            approve: string | null;
         };
         ziggy: Config & { location: string };
     };

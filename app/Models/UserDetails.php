@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ApprovingEnum;
 use App\Enums\RoleEnums;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -34,11 +35,14 @@ class UserDetails extends Model
         'user_id',
         'full_name',
         'avatar',
-        'is_banned'
+        'is_banned',
+        'approved_by',
+        'approve',
     ];
 
     protected $casts = [
         'role' => RoleEnums::class,
+        'approve' => ApprovingEnum::class,
     ];
 
     public function user()

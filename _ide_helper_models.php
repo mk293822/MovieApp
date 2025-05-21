@@ -131,6 +131,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read User|null $approvedBy
+ * @property-read mixed $approve
  * @property-read mixed $is_banned
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
  * @property-read int|null $permissions_count
@@ -170,7 +172,11 @@ namespace App\Models{
  * @property string|null $full_name
  * @property string|null $avatar
  * @property int $is_banned
+ * @property int|null $approved_by
+ * @property \App\Enums\ApprovingEnum $approve
  * @property \App\Enums\RoleEnums $role
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDetails whereApprove($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDetails whereApprovedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDetails whereAvatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDetails whereFullName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDetails whereIsBanned($value)

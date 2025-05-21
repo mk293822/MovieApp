@@ -27,6 +27,8 @@ Route::middleware(['auth', 'verified', 'permission:WATCH_MOVIES'])->group(functi
     // Movie Routes
     Route::get('/movie/{id}', [MovieController::class, 'show'])->name('movie.show');
     Route::get('/movie', [MovieController::class, 'getMovies'])->name('movie.get');
+
+    Route::post('/applyUplaod', [ProfileController::class, 'applyUpload'])->name('applyUpload');
 });
 
 Route::middleware('auth')->prefix('profile')->group(function () {
