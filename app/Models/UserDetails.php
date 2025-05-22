@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ApprovingEnum;
+use App\Enums\PermissionEnums;
 use App\Enums\RoleEnums;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -47,6 +48,6 @@ class UserDetails extends Model
 
     public function user()
     {
-        $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

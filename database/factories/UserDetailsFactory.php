@@ -20,7 +20,7 @@ class UserDetailsFactory extends Factory
         return [
             'full_name' => $this->faker->name . $this->faker->name,
             'avatar' => 'avatars/' . $this->faker->uuid . '.jpg',
-            'is_banned' => $this->faker->boolean(10), // 10% chance of being banned
+            'is_banned' => $this->faker->boolean(10),
         ];
     }
 }

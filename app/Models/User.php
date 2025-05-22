@@ -96,7 +96,7 @@ class User extends Authenticatable
 
     public function approvedBy()
     {
-        return $this->belongsTo(User::class, 'approved_by')
+        return $this->details()->belongsTo(User::class, 'approved_by')
             ->whereHas('permissions', function ($q) {
                 $q->where('name', PermissionEnums::ApproveUploader->value);
             });

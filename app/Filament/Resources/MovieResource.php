@@ -9,6 +9,7 @@ use App\Filament\Resources\MovieResource\Pages;
 use App\Filament\Resources\MovieResource\RelationManagers;
 use App\Models\Movie;
 use App\Models\MovieDetail;
+use App\Models\User;
 use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
@@ -24,6 +25,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\CheckboxColumn;
 use Filament\Tables\Columns\Contracts\Editable;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Illuminate\Support\Facades\Storage;
@@ -135,18 +137,20 @@ class MovieResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn($query) => $query->getByCreatedUser(Filament::auth()->id())->orderByDesc('created_at'))
             ->columns([
-            Tables\Columns\TextColumn::make('id')
-                    ->label('ID')
-                    ->searchable(),
-            Tables\Columns\ImageColumn::make('poster_path')
-                ->height(60),
+            Tables\Columns\TextColumn::make('index')
+                ->label('No.')
+                ->rowIndex()
+                ->sortable(),
             Tables\Columns\TextColumn::make('title')
                 ->sortable()
+                ->width(80)
                     ->searchable(),
             Tables\Columns\TextColumn::make('director')
                 ->sortable()
-                    ->searchable(),
+                ->toggleable(isToggledHiddenByDefault: true)
+                ->searchable(),
             Tables\Columns\TextColumn::make('rating')
                     ->numeric()
                     ->sortable(),
@@ -157,11 +161,16 @@ class MovieResource extends Resource
                 ->sortable()
                 ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
+            Tables\Columns\TextColumn::make('created_by')
+                ->sortable()
+                ->toggleable(isToggledHiddenByDefault: true)
+                ->searchable()
+                ->formatStateUsing(fn($state) => User::find($state)->details->full_name),
             Tables\Columns\TextColumn::make('release_year')
                     ->sortable()
                 ->date()
                     ->toggleable(isToggledHiddenByDefault: true),
-            CheckboxColumn::make('is_public')->sortable()->searchable(),
+            IconColumn::make('is_public')->boolean()->sortable()->searchable(),
             ])
             ->filters([
             SelectFilter::make('genre')
@@ -191,7 +200,6 @@ class MovieResource extends Resource
             TernaryFilter::make('is_public')->preload(),
         ])
             ->actions([
-                Tables\Actions\EditAction::make(),
             Tables\Actions\Action::make('delete')
                 ->label('Delete')
                 ->icon('heroicon-o-trash')

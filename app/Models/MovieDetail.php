@@ -47,4 +47,14 @@ class MovieDetail extends Model
     {
         return $this->belongsTo(Movie::class);
     }
+
+    public function createdBy()
+    {
+        return $this->belongTo(User::class, 'created_by');
+    }
+
+    public function scopeGetByCreatedUser($query, $id)
+    {
+        return $query->where('created_by', $id);
+    }
 }

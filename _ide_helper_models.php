@@ -69,6 +69,7 @@ namespace App\Models{
  * @mixin \Eloquent
  * @property int $id
  * @property string $movie_id
+ * @property int $created_by
  * @property string $title
  * @property string|null $description
  * @property \App\Enums\MovieGenreEnums|null $genre
@@ -83,9 +84,11 @@ namespace App\Models{
  * @property int $is_public
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail getByCreatedUser($id)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereActors($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereCoverPath($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereDirector($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MovieDetail whereGenre($value)
@@ -131,7 +134,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
  * @mixin \Eloquent
- * @property-read User|null $approvedBy
  * @property-read mixed $approve
  * @property-read mixed $is_banned
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
@@ -173,8 +175,9 @@ namespace App\Models{
  * @property string|null $avatar
  * @property int $is_banned
  * @property int|null $approved_by
- * @property \App\Enums\ApprovingEnum $approve
+ * @property \App\Enums\ApprovingEnum|null $approve
  * @property \App\Enums\RoleEnums $role
+ * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDetails whereApprove($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDetails whereApprovedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserDetails whereAvatar($value)

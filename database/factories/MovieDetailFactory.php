@@ -40,6 +40,7 @@ class MovieDetailFactory extends Factory
             'rating'       => $this->faker->randomFloat(1, 1, 10),
             'views'        => $this->faker->numberBetween(0, 1_000_000),
             'is_public'    => $this->faker->boolean(90),
+            'created_by'   => $this->faker->randomElement([11, 12]),
         ];
     }
 }

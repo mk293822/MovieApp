@@ -6,6 +6,7 @@ use App\Filament\Resources\MovieResource;
 use App\Models\Movie;
 use FFMpeg\FFMpeg;
 use Filament\Actions;
+use Filament\Facades\Filament;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -28,6 +29,7 @@ class CreateMovie extends CreateRecord
 
             unset($data['video']);
             $data['movie_id'] = $video->id;
+            $data['created_by'] = Filament::auth()->id();
 
             return $data;
         } catch (\Exception $e) {

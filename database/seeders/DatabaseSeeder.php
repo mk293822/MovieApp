@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\ApprovingEnum;
 use App\Enums\RoleEnums;
 use App\Models\Movie;
 use App\Models\MovieDetail;
@@ -40,6 +41,18 @@ class DatabaseSeeder extends Seeder
 
         UserDetails::factory()->create([
             'user_id' => $user->id,
+            'full_name' => 'Min Khant Thaw',
+            'approve' => ApprovingEnum::Accept,
+            'approved_by' => 1,
+        ]);
+
+        $user1 = User::factory()->create([
+            'email' => 'mkt293821@gmail.com',
+        ])->assignRole(RoleEnums::User->value);
+
+        UserDetails::factory()->create([
+            'user_id' => $user1->id,
+            'approve' => ApprovingEnum::Pending,
         ]);
 
         Movie::factory()
@@ -47,7 +60,7 @@ class DatabaseSeeder extends Seeder
             ->create()
             ->each(function ($movie) {
                 MovieDetail::factory()->create([
-                    'movie_id' => $movie->id
+                'movie_id' => $movie->id,
                 ]);
             })
         ;

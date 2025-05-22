@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('movie_id')
                 ->references('id')->on('movies')
                 ->onDelete('cascade');
+            $table->foreignId('created_by')->index()->constrained('users')->nullOnDelete();
 
             $table->string('title')->index();
             $table->text('description')->nullable();
