@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckIfUserIsBanned
@@ -15,6 +16,11 @@ class CheckIfUserIsBanned
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if (Auth::user() && Auth::user()->is_banned) {
+            // Redirect to a 403 page or custom error page with a blurred background
+            return response()->view('banned', [], 403);
+        }
+
         return $next($request);
     }
 }

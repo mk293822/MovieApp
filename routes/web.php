@@ -18,9 +18,9 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('Welcome');
 
-Route::middleware(['auth', 'verified', 'permission:WATCH_MOVIES'])->group(function () {
+Route::middleware(['auth', 'verified', 'permission:WATCH_MOVIES', 'check.banned'])->group(function () {
     // Dashboard Routes
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 

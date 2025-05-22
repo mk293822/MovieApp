@@ -60,6 +60,8 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+            'verified',
+            'check.banned',
                 'auth',
                 sprintf('role:%s|%s',
                 RoleEnums::Admin->value,
