@@ -1,3 +1,13 @@
+<p align="center">
+  <a href="https://laravel.com" target="_blank">
+    <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="200" alt="Laravel Logo" />
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://reactjs.org" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" width="150" alt="React Logo" />
+  </a>
+</p>
+
 # MovieApp
 
 ## Description
@@ -26,7 +36,7 @@ MovieApp is a modern web application built with a Laravel backend and a React fr
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/mk293822/MovieApp.git
    cd MovieApp
    ```
 
