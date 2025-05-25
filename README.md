@@ -1,103 +1,119 @@
-<p align="center">
-  <a href="https://laravel.com" target="_blank">
-    <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="200" alt="Laravel Logo" />
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://reactjs.org" target="_blank">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" width="150" alt="React Logo" />
-  </a>
-</p>
+# 🎬 MovieApp
 
-# MovieApp
+A modern **Movie Management Application** built with **Laravel 12** (API backend) and **React + TypeScript** (frontend). This system allows users to browse, search, and manage movies efficiently with a powerful admin panel.
 
-## Description
-MovieApp is a modern web application built with a Laravel backend and a React frontend using TypeScript and Vite. It leverages the power of Laravel for backend API and business logic, and React with Inertia.js for a seamless single-page application experience. The project also integrates Filament for an admin panel, Tailwind CSS for styling, and various other tools to provide a robust and scalable movie management platform.
+---
 
-## Technologies Used
-- **Backend:** Laravel 12, PHP 8.2
-- **Frontend:** React 18, TypeScript, Vite
-- **Styling:** Tailwind CSS
-- **Admin Panel:** Filament
-- **SPA Framework:** Inertia.js
-- **Search:** Laravel Scout with TNTSearch driver
-- **Authentication:** Laravel Breeze, Sanctum
-- **Video Processing:** PHP-FFMpeg
-- **Testing:** PestPHP, PHPUnit
-- **Linting & Formatting:** ESLint, Prettier
+![Laravel](https://img.shields.io/badge/Laravel-12-red?logo=laravel)
+![React](https://img.shields.io/badge/React-TypeScript-61DAFB?logo=react)
+![License](https://img.shields.io/badge/License-MIT-blue)
+![Status](https://img.shields.io/badge/status-active-success)
 
-## Installation
+---
 
-### Prerequisites
-- PHP 8.2 or higher
-- Composer
-- Node.js and npm
-- MySQL or other supported database
+## 🚀 Features
 
-### Steps
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/mk293822/MovieApp.git
-   cd MovieApp
-   ```
+- 🔐 Secure user authentication with Laravel Breeze and Sanctum  
+- 🎥 Full movie CRUD management with detailed movie info  
+- 🛠️ Admin panel powered by Filament for easy resource management  
+- 🔍 Advanced fuzzy search powered by Fuse.js and Laravel Scout  
+- 🌐 Single Page Application experience with Inertia.js and React  
+- 🎨 Responsive UI styled with Tailwind CSS  
+- 📹 Video processing support using PHP-FFMpeg  
+- 🧪 Comprehensive testing with PestPHP and PHPUnit  
+- ⚡ Optimized performance with caching and queue processing  
+- 🔄 Real-time updates and notifications (planned)  
 
-2. Install PHP dependencies:
-   ```bash
-   composer install
-   ```
+---
 
-3. Install JavaScript dependencies:
-   ```bash
-   npm install
-   ```
+## 🛠️ Tech Stack
 
-4. Copy the example environment file and configure your environment variables:
-   ```bash
-   cp .env.example .env
-   ```
+### 🔧 Backend
 
-5. Generate application key:
-   ```bash
-   php artisan key:generate
-   ```
+- [Laravel 12](https://laravel.com/docs/12.x)  
+- Laravel Sanctum (SPA Authentication)  
+- Laravel Breeze (Authentication scaffolding)  
+- Filament Admin Panel  
+- Laravel Scout with TNTSearch driver (Search)  
+- PHP-FFMpeg (Video processing)  
+- MySQL or compatible database  
+- RESTful API with validation and resource controllers  
 
-6. Run database migrations and seeders:
-   ```bash
-   php artisan migrate --seed
-   ```
+### 🎨 Frontend
 
-## Running the Application
+- [React](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)  
+- [Inertia.js](https://inertiajs.com/) (SPA framework)  
+- [Tailwind CSS](https://tailwindcss.com/)  
+- Fuse.js (Fuzzy search)  
+- Axios (API communication)  
+- ESLint & Prettier (Linting and formatting)  
+- Vite (Build tool)  
 
-### Development Server
-To start the Laravel backend server and Vite development server concurrently, run:
+---
+
+## ⚙️ Installation
+
+### 📦 Requirements
+
+- PHP >= 8.2  
+- Composer  
+- Node.js >= 18  
+- MySQL or compatible DB  
+- Laravel CLI  
+
+---
+
+### 🔧 Step-by-step Setup
+
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/mk293822/MovieApp.git
+cd MovieApp
+```
+
+2. **Install backend dependencies**
+
+```bash
+composer install
+```
+
+3. **Copy and setup environment**
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+4. **Configure database in `.env`**
+
+```bash
+DB_DATABASE=your_database
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
+
+5. **Run database migrations and seeders**
+
+```bash
+php artisan migrate --seed
+```
+
+6. **Install frontend dependencies**
+
+```bash
+npm install
+```
+
+7. **Start the development servers**
+
 ```bash
 npm run dev
-```
-This will start the backend at `http://localhost:8000` and the frontend Vite server.
-
-### Accessing the Application
-- Frontend SPA will be accessible via the backend URL.
-- Filament admin panel is available for managing movies and users.
-
-## Testing
-Run the test suite using:
-```bash
-php artisan test
-```
-or
-```bash
-npm run test
+php artisan serve
 ```
 
-## Folder Structure Overview
-- `app/` - Laravel backend application code (Controllers, Models, Services, Enums)
-- `database/` - Migrations, seeders, and factories
-- `resources/js/` - React frontend source code with components, pages, and layouts
-- `routes/` - Laravel route definitions
-- `public/` - Public assets and entry point
-- `tests/` - Backend and frontend tests
+---
 
-## Contributing
-Contributions are welcome! Please fork the repository and submit pull requests. Make sure to follow coding standards and include tests for new features.
+## 📝 License
 
-## License
-This project is open-sourced software licensed under the MIT license.
+This project is licensed under the [MIT License](./LICENSE).
